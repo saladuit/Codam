@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset=“UTF-8”>
+		<title>ft_services | 42 | nvan-win</title>
+		<style>
+			body {
+				font-family: Arial, Helvetica, sans-serif;
+				background-image: linear-gradient(to right,
+				#70e1f5, 
+				#ffd194);
+			}
+			.center-img {
+				display: block;
+				margin-left: auto;
+				margin-right: auto;
+				}
+			code {
+				color: #f1f1f1;
+				padding-left: 0.3em;
+				padding-right: 0.3em;
+				background: #444;
+			}
+			.center {
+				margin: auto;
+				width: 50%;
+				border: 3px solid white;
+				padding: 10px;
+				margin-top: 40px;
+			}
+			.fixed {
+				position: fixed;
+				background: #326de6;
+				color: #fff;
+				padding: 10px;
+				width: 200px;
+				text-align: center;
+			}
+			li {
+				margin: 10px 0;
+			}
+		</style>
+	</head>
+	<body>
+		<div class="fixed">
+			<p>ft_services | 42 | nvan-win</p>
+		</div>
+		<div class="center">
+			<h2>Nginx</h2>
+			<p>
+				<ul>
+					<li><a href="http://192.168.99.129:80" target="_blank">Port 80</a> [http://192.168.99.129:80] redirects to port 443 [https://192.168.99.129/]</li>
+					<li><a href="https://192.168.99.129:443" target="_blank">Port 443</a> [https://192.168.99.129:443]</li>
+					<li>Port 22 [SSH] <br><br>
+						For testing, open terminal and enter: <code>ssh user@192.168.99.129</code><br>
+						Password = <code>password</code><br>
+						Congrats! You are now connected to the Nginx container through SSH &#x1F973<br></li>
+					<li>Visit <a href="https://192.168.99.129/wordpress" target="_blank">WordPress</a> and <a href="https://192.168.99.129/phpmyadmin" target="_blank">phpMyAdmin</a> </li>
+				</ul>
+			</p>
+		</div>
+		<div class="center">
+			<h2>phpMyAdmin</h2>
+			<p>
+				<ul>
+					<li>Visit phpMyAdmin on <a href="http://192.168.99.129:5000" target="_blank">Port 5000</a> [http://192.168.99.129:5000/]<br><br>
+					Login credentials:<br>
+					Username = <code>dbuser</code><br>
+					Password = <code>dbpassword</code>
+				</li>
+				</ul>
+			</p>
+		</div>
+		<div class="center">
+			<h2>WordPress</h2>
+			<p>
+				<ul>
+					<li>Visit my WordPress website on <a href="http://192.168.99.129:5050" target="_blank">Port 5050</a> [http://192.168.99.129:5050/]<br><br>
+					Go to the <a href="http://192.168.99.129:5050/wp-admin" target="_blank">login page</a><br>
+					Login credentials:<br>
+					Username = <code>admin</code><br>
+					Password = <code>password</code>
+				</li>
+				</ul>
+			</p>
+		</div>
+		<div class="center">
+			<h2>FTPS</h2>
+			<p>
+				<ul>
+					<li>
+					Login credentials:<br>
+					Host = <code>192.168.99.129</code><br>
+					Username = <code>user</code><br>
+					Password = <code>password</code><br>
+					Port = <code>21</code><br><br>
+					For testing, go to FTPS shell in Minikube<br>
+					<code>/var/ftps/</code><br>
+					<code>touch hello.txt</code><br>
+					<code>echo "Hello, World!" > hello.txt</code>
+				</li>
+				</ul>
+			</p>
+		</div>
+		<div class="center">
+			<h2>Grafana</h2>
+			<p>
+				<ul>
+					<li>
+					Visit Grafana on <a href="http://192.168.99.129:3000" target="_blank">port 3000</a> [http://192.168.99.129:3000]<br><br>
+					Login credentials:<br>
+					Username = <code>admin</code><br>
+					Password = <code>admin</code><br>
+				</li>
+				</ul>
+			</p>
+		</div>
+		<div class="center">
+			<h2>kubectl Cheat Sheet</h2>
+			<p>
+				<code>kubectl get nodes</code> -> listing of all nodes in a cluster<br>
+				<code>kubectl describe node &ltnode-name&gt</code> -> detailed information about node<br>
+				<code>kubectl get pods</code> -> listing of all pods in a cluster <br>
+				<code>kubectl get deployments</code> -> listing of all deployments in a cluster <br>
+				<code>kubectl get services</code> -> listing of all services in a cluster <br>
+				<code>kubectl scale deployment nginx --replicas=0 -n default</code> -> Scale a replicaset <br>
+			</p>
+		</div>
+		<div class="center" style="text-align: center; margin-bottom: 40px;"><h1>Thanks!</h1></div>
+	</body>
+</html>

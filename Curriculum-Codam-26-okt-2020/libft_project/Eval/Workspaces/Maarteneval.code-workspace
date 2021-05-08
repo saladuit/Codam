@@ -1,0 +1,14 @@
+{
+	"folders": [
+        {
+            "path": "../maarteneval"
+        },
+        {
+            "path": "../libft_main_eval"
+        },
+        {
+            "path": "../danaieval"
+        }
+    ],
+	"settings": {}
+}

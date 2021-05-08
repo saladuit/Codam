@@ -1,0 +1,24 @@
+# **************************************************************************** #
+#                                                                              #
+#                                                         :::      ::::::::    #
+#    handy_commands.txt                              |o_o || |                 #
+#                                                     +:+ +:+         +:+      #
+#    By: saladin <safoh@student.codam.nl>           +#+  +:+       +#+         #
+#                                                 +#+#+#+#+#+   +#+            #
+#    Created: 2021/05/06 16:55:01 by saladin           #+#    #+#              #
+#    Updated: 2021/05/08 14:21:05 by safoh        \___)=(___/                  #
+#                                                                              #
+# **************************************************************************** #
+
+// ctrl + l is clear screen
+// ctrl + n is show whitespaces 
+zcf
+vcf
+compr
+cpmra
+valg
+valga
+norme
+
+NVIM COMMANDS
+enter = show tabs

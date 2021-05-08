@@ -1,0 +1,62 @@
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: wp-pv-claim
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 4Gi
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: wordpress
+  labels:
+    app: wordpress
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: wordpress
+  template:
+    metadata:
+      labels:
+        app: wordpress
+    spec:
+      serviceAccount: admin
+      initContainers:
+        - name: init-wait
+          image: alpine
+          command: ["sh", "-c", "for i in $(seq 1 300); do nc -zvw1 mysql 3306 && exit 0 || sleep 3; done; exit 1"]
+      containers:
+        - name: wordpress
+          image: ft-wordpress
+          imagePullPolicy: Never
+          ports:
+            - containerPort: 5050
+              name: http
+          volumeMounts:
+            - name: wp-persistent-storage
+              mountPath: /www
+      volumes:
+        - name: wp-persistent-storage
+          persistentVolumeClaim:
+            claimName: wp-pv-claim
+---
+apiVersion: v1
+kind: Service
+metadata:
+  annotations:
+    metallb.universe.tf/allow-shared-ip: shared
+  name: wordpress
+spec:
+  ports:
+    - name: http
+      port: 5050
+      protocol: TCP
+      targetPort: 5050
+  selector:
+    app: wordpress
+  type: LoadBalancer

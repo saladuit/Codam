@@ -1,0 +1,6 @@
+docker system prune -a - reset the system
+docker ps -a - show info
+docker build
+docker run
+docker rm -f
+docker volume inspect
