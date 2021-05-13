@@ -10,6 +10,8 @@
 /*                                                                            */
 /* ************************************************************************** */
 
+#include <stdio.h>
+#include "get_next_line.h"
 
 int	ft_tester(char *file)
 {
@@ -25,14 +27,12 @@ int	ft_tester(char *file)
 		return (0);
 	}
 	read_code = 1;
-	while (read_code >= 0)
+	while (read_code > 0)
 	{
 		read_code = get_next_line(fd, &line);
 		printf("return gnl: [%d]\t string:%s\n", read_code, line);
-		if (read_code == 0)
-			break;
+		free(line);
 	}
-	free(line);
 	close(fd);
 	return (0);
 }

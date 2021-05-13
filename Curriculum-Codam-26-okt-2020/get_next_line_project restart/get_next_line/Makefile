@@ -7,9 +7,10 @@ CFLAGS = -Wall -Wextra -Werror
 #
 # Project files
 #
-SRCS = get_next_line.c get_next_line_utils.c
+SRCS = get_next_line.c get_next_line_utils.c main.c
 OBJS = $(SRCS:.c=.o)
 EXE  = get_next_line
+DBGEXE = debug_get_next_line
 
 #
 # Project dirs
@@ -29,6 +30,11 @@ all: release
 #
 # Debug rules
 #
+DBGDIR = .
+DGBEXE = $(DGBDIR)/$(EXE)
+DBGOBJS = $(addprefix $(SRC_DIR)/, $(OBJS))
+DBGCFLAGS = -g -D BUFFER_SIZE=32
+
 debug: $(DBGEXE)
 
 $(DBGEXE): $(DBGOBJS)
@@ -51,6 +57,9 @@ $(RELDIR)/%.o: %.c
 re: clean all
 
 clean:
-	rm -f $(RELEXE) $(RELOBJS)
+	rm -f $(RELOBJS) $(DBGOBJS)
 
-.PHONY: all clean release re
+fclean:
+	rm -f $(RELEXE) $(DBGEXE) $(DBGOBJ) $(RELOBJS)
+
+.PHONY: all clean debug release re fclean
