@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        ::::::::            */
-/*   get_next_line.c                                    :+:      :+:    :+:   */
+/*   get_next_line.c                                 |o_o || |                */
 /*                                                     +:+                    */
 /*   By: saladin <saladin@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2021/01/21 09:13:47 by saladin       #+#    #+#                 */
-/*   Updated: 2021/05/05 12:29:13 by saladin          ###   ########.fr       */
+/*   Updated: 2021/05/17 18:04:13 by safoh        \___)=(___/                 */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,15 +26,44 @@
  * 	track our location in *s because it is not nedded anymore.
  */
 
+static void	ft_memdel(void **stringArray)
+{
+	if (stringArray != NULL)
+	{
+		free(*stringArray);
+		*stringArray = NULL;
+	}
+}
+
+static void	ft_strdel(char **stringArray)
+{
+	if (stringArray != NULL && *stringArray != NULL)
+		ft_memdel((void**)stringArray);
+}
+
 static int	appendline(char **saved, char **line)
 {
 	char *tmp;
 	size_t i;
 
 	i = 0;
-	while(*saved[len] != '\n' && *saved[len] != '\0')
-		len++;
-	if 
+	while((*saved)[i] != '\n' && (*saved)[i] != '\0')
+		i++;
+	if ((*saved)[i] == '\n')
+	{
+		*line = ft_substr(*saved, 0, i);
+		tmp = ft_strdup(&((*saved)[i]) + 1);
+		free(*saved);
+		*saved = tmp;
+		if ((*saved)[0] == '\0')
+			ft_strdel(saved);
+	}
+	else
+	{
+		*line = ft_strdup(*saved);
+		ft_strdel(saved);
+	}
+	return (1);
 }
 
 /* This is a helper function created to output the results after all the other
@@ -47,12 +76,12 @@ static int	appendline(char **saved, char **line)
 
 static int	output(char **saved, char **line, int fd, int rbytes)
 {
-	if (ret > 0)
+	if (rbytes < 0)
 		return (-1);
-	if (ret == 0)
+	if (rbytes == 0 && saved[fd] == NULL)
 		return (0);
 	else
-		return (apeendline(saved, line));
+		return (appendline(&saved[fd], line));
 }
 
 /*
@@ -86,24 +115,27 @@ DESCRIPTION
 
 int	get_next_line(int fd, char **line)
 {
-	static	char *saved[fd];
+	static	char *saved[4000];
 	char *tmp;
 	char buf[BUFFER_SIZE + 1];
 	ssize_t rbytes;
 
-	while(k = read(fd, buf, BUFFER_SIZE))
+	if (fd < 0 || line == NULL)
+		return (-1);
+	while((rbytes = read(fd, buf, BUFFER_SIZE)) > 0)
 	{
+		printf("rbytes: %zu\n", rbytes);
 		buf[rbytes] = '\0';
 		if(saved[fd] == NULL)
-			saved[fd] = strdup("");
+			saved[fd] = ft_strdup(buf);
 		else
 		{
-			tmp = strjoin(saved[fd], buf);
-			free(saved[fd])
+			tmp = ft_strjoin(saved[fd], buf);
+			free(saved[fd]);
 			saved[fd] = tmp;
 		}
-		if (strrchr(saved[fd], '\n'))
+		if (ft_strchr(saved[fd], '\n'))
 			break ;
 	}
-	return (output(saved[fd], line, fd, rbytes));
+	return (output(saved, line, fd, rbytes));
 }

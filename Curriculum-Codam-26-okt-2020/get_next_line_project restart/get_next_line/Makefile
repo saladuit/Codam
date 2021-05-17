@@ -7,9 +7,10 @@ CFLAGS = -Wall -Wextra -Werror
 #
 # Project files
 #
-SRCS = get_next_line.c get_next_line_utils.c
+SRCS = get_next_line.c get_next_line_utils.c main.c
 OBJS = $(SRCS:.c=.o)
 EXE  = get_next_line
+DBGEXE = debug_get_next_line
 
 #
 # Project dirs
@@ -56,9 +57,9 @@ $(RELDIR)/%.o: %.c
 re: clean all
 
 clean:
-	rm -f $(RELEXE) $(RELOBJS)
+	rm -f $(RELOBJS) $(DBGOBJS)
 
 fclean:
-	rm -f $(RELEXE) $(RELOBJS) $(DBBEXE) $(DBGOBJS)
+	rm -f $(RELEXE) $(DBGEXE) $(DBGOBJ) $(RELOBJS)
 
 .PHONY: all clean release re debug flclean

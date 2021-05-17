@@ -29,6 +29,11 @@ all: release
 #
 # Debug rules
 #
+DBGDIR = .
+DGBEXE = $(DGBDIR)/$(EXE)
+DBGOBJS = $(addprefix $(SRC_DIR)/, $(OBJS))
+DBGCFLAGS = -g -D BUFFER_SIZE=32
+
 debug: $(DBGEXE)
 
 $(DBGEXE): $(DBGOBJS)
