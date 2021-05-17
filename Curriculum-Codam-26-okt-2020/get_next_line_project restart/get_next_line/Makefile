@@ -29,6 +29,11 @@ all: release
 #
 # Debug rules
 #
+DBGDIR = .
+DBGEXE = $(DBGDIR)/$(EXE)
+DBGOBJS = $(addprefix $(SRC_DIR)/, $(OBJS))
+DBGCFLAGS = -g -D BUFFER_SIZE=32
+
 debug: $(DBGEXE)
 
 $(DBGEXE): $(DBGOBJS)
@@ -53,4 +58,7 @@ re: clean all
 clean:
 	rm -f $(RELEXE) $(RELOBJS)
 
-.PHONY: all clean release re
+fclean:
+	rm -f $(RELEXE) $(RELOBJS) $(DBBEXE) $(DBGOBJS)
+
+.PHONY: all clean release re debug flclean
