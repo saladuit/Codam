@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        ::::::::            */
-/*   get_next_line.c                                    :+:      :+:    :+:   */
+/*   get_next_line.c                                 |o_o || |                */
 /*                                                     +:+                    */
 /*   By: saladin <saladin@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2021/01/21 09:13:47 by saladin       #+#    #+#                 */
-/*   Updated: 2021/05/05 12:29:13 by saladin          ###   ########.fr       */
+/*   Updated: 2021/05/17 18:04:13 by safoh        \___)=(___/                 */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -115,7 +115,7 @@ DESCRIPTION
 
 int	get_next_line(int fd, char **line)
 {
-	static	char *saved[fd];
+	static	char *saved[4000];
 	char *tmp;
 	char buf[BUFFER_SIZE + 1];
 	ssize_t rbytes;
