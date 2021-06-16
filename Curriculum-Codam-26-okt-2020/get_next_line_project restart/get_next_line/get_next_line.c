@@ -6,136 +6,51 @@
 /*   By: saladin <saladin@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2021/01/21 09:13:47 by saladin       #+#    #+#                 */
-/*   Updated: 2021/05/17 18:04:13 by safoh        \___)=(___/                 */
+/*   Updated: 2021/06/16 12:34:07 by safoh        \___)=(___/                 */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
 #include <stdio.h>
 
-/* This function appends a single line into our line variable. We do this by
- * 	finding the length of the line.
- * 1) If at index len, the character is a newline, we save the string into line
- * 	up to the length found.
- * 2) Then we readjust the stored data (**saved) by creating a temporary string
- * 	that stored the rest of data after the newline.
- * 3) We free the stored data to update it to the current address because we
- * 	already append a line from it. This is done by freeing *s and setting it
- * 	equal to the temporary string that stored the remaining data.
- * 4) At any point when we reach the end of file, we free the memory used to
- * 	track our location in *s because it is not nedded anymore.
- */
-
-static void	ft_memdel(void **stringArray)
-{
-	if (stringArray != NULL)
-	{
-		free(*stringArray);
-		*stringArray = NULL;
-	}
-}
-
-static void	ft_strdel(char **stringArray)
-{
-	if (stringArray != NULL && *stringArray != NULL)
-		ft_memdel((void**)stringArray);
-}
-
-static int	appendline(char **saved, char **line)
+int	newline(int fd, char **line, char **saved)
 {
 	char *tmp;
-	size_t i;
+	size_t len;
 
-	i = 0;
-	while((*saved)[i] != '\n' && (*saved)[i] != '\0')
-		i++;
-	if ((*saved)[i] == '\n')
+	len = ft_strlen(saved[fd]);
+	if (ft_strchr(saved[fd], '\n'))
 	{
-		*line = ft_substr(*saved, 0, i);
-		tmp = ft_strdup(&((*saved)[i]) + 1);
-		free(*saved);
-		*saved = tmp;
-		if ((*saved)[0] == '\0')
-			ft_strdel(saved);
+		tmp = ft_strdup((ft_strchr(saved[fd], '\n') + 1));
+		*line = ft_substr(saved[fd], 0, (len - (ft_strlen(tmp) + 1)));
+		free(saved[fd]);
+		saved[fd] = ft_strdup(tmp);
+		free(tmp);
+		return (1);
 	}
 	else
-	{
-		*line = ft_strdup(*saved);
-		ft_strdel(saved);
-	}
-	return (1);
-}
-
-/* This is a helper function created to output the results after all the other
- * cases are taken care of in get_next_line.
- * 1) If ret is less than 0 , then return -1 since an error occurred.
- * 2) If the reading is completed, return a 0.
- * 3) Else , go to appendline function to return 1 and save the line read at
- * 	the current address of the static variavle stored.
-*/
-
-static int	output(char **saved, char **line, int fd, int rbytes)
-{
-	if (rbytes < 0)
-		return (-1);
-	if (rbytes == 0 && saved[fd] == NULL)
 		return (0);
-	else
-		return (appendline(&saved[fd], line));
 }
-
-/*
-SYNOPSIS
-       #include <unistd.h>
-
-       ssize_t read(int fd, void *buf, size_t count);
-
-DESCRIPTION
-       read()  attempts to read up to count bytes from file descriptor fd into
-       the buffer starting at buf.
-*/
-
-/* the get_next line Fucntion reads a file and returns the line ending with a 
- * newline character from a file descriptor.
- * 1) A static variable is used, so that whenever get_next_line is called, it
- * 	remembers the prevous function call. 
- * 2) When get_next_line is first called, we check to see if our static
- * 	variable **s is empty. If it is, we allocate memory for it using our buff 
- * string. 
- * 3) In the loop, we will continue to read more of the line and join them 
- * 	together using a temporary string. 
- * 4) This temporary string will replace the stored data each iteration so that
- * 	we can keep track of how much is read and delete the previous stored data.
- * 5) This is needed because we are only reading so many n-bytes at a time
- * 	decided by our BUFF_SIZE.
- * 6) If we read at each iteration withour freeing memory, then we would have
- * 	memory leaks, the loop breaks when a newline is encountered.
- * 7) Finally, we call output function to check what should be returned.
- */
 
 int	get_next_line(int fd, char **line)
 {
-	static	char *saved[4000];
-	char *tmp;
-	char buf[BUFFER_SIZE + 1];
-	ssize_t rbytes;
+	static char *saved[FOPEN_MAX];
+	char buffer[BUFFER_SIZE + 1];
+	ssize_t b_read;
 
-	if (fd < 0 || line == NULL)
+	saved[fd] = ft_strdup("");
+	b_read = 1;
+
+	if (fd < 0 || !line)
 		return (-1);
-	while((rbytes = read(fd, buf, BUFFER_SIZE)) > 0)
-	{
-		printf("rbytes: %zu\n", rbytes);
-		buf[rbytes] = '\0';
-		if(saved[fd] == NULL)
-			saved[fd] = ft_strdup(buf);
-		else
-		{
-			tmp = ft_strjoin(saved[fd], buf);
-			free(saved[fd]);
-			saved[fd] = tmp;
-		}
-		if (ft_strchr(saved[fd], '\n'))
-			break ;
+	while (b_read) {
+		if (newline(fd, line, saved))
+			return (1);
+		b_read = read(fd, buffer, BUFFER_SIZE);
+		buffer[b_read] = '\0';
+		saved[fd] = ft_strjoin(saved[fd], buffer);
+		if (b_read < BUFFER_SIZE && b_read >= 0)
+			*line = ft_strdup(saved[fd]);
 	}
-	return (output(saved, line, fd, rbytes));
+	return (0);
 }

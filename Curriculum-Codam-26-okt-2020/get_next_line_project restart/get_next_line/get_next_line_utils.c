@@ -1,17 +1,32 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        ::::::::            */
-/*   get_next_line_utils.c                              :+:    :+:            */
+/*   get_next_line_utils.c                           |o_o || |                */
 /*                                                     +:+                    */
 /*   By: saladin <saladin@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2021/01/21 12:47:10 by saladin       #+#    #+#                 */
-/*   Updated: 2021/05/08 16:23:09 by saladin       ########   odam.nl         */
+/*   Updated: 2021/06/16 12:33:38 by safoh        \___)=(___/                 */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
 
+void	*ft_calloc(size_t nmemb, size_t size)
+{
+	void *p;
+
+	if (nmemb == 0 || size == 0)
+	{
+		size = 1;
+		nmemb = 1;
+	}
+	p = (void*)malloc(nmemb * size);
+	if (p == 0)
+		return (0);
+	ft_bzero(p, nmemb * size);
+	return (p);
+}
 void	ft_bzero(void *s, size_t n)
 {
 	ft_memset(s, 0, n);
