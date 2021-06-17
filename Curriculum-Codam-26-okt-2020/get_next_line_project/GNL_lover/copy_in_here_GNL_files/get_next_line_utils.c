@@ -1,17 +1,32 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        ::::::::            */
-/*   get_next_line_utils.c                              :+:    :+:            */
+/*   get_next_line_utils.c                           |o_o || |                */
 /*                                                     +:+                    */
 /*   By: saladin <saladin@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2021/01/21 12:47:10 by saladin       #+#    #+#                 */
-/*   Updated: 2021/03/29 14:22:15 by saladin       ########   odam.nl         */
+/*   Updated: 2021/06/16 12:33:38 by safoh        \___)=(___/                 */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
 
+void	*ft_calloc(size_t nmemb, size_t size)
+{
+	void *p;
+
+	if (nmemb == 0 || size == 0)
+	{
+		size = 1;
+		nmemb = 1;
+	}
+	p = (void*)malloc(nmemb * size);
+	if (p == 0)
+		return (0);
+	ft_bzero(p, nmemb * size);
+	return (p);
+}
 void	ft_bzero(void *s, size_t n)
 {
 	ft_memset(s, 0, n);
@@ -121,6 +136,47 @@ char	*ft_strchr(const char *s, int c)
 	if (c == '\0')
 		return (p);
 	return (0);
+}
+
+size_t	ft_strlcat(char *dst, const char *src, size_t size)
+{
+	size_t	d_len;
+	size_t	s_len;
+	size_t	res;
+	size_t	i;
+
+	d_len = ft_strlen(dst);
+	s_len = ft_strlen(src);
+	res = 0;
+	i = 0;
+	if (size == 0)
+		return (s_len);
+	if (size > d_len)
+		res = d_len + s_len;
+	else
+		res = s_len + size;
+	while (i + d_len < size - 1 && src[i])
+	{
+		dst[i + d_len] = src[i];
+		i++;
+	}
+	dst[i + d_len] = '\0';
+	return (res);
+}
+
+char	*ft_substr(char const *s, unsigned int start, size_t len)
+{
+	char	*dest;
+
+	if (!s)
+		return (NULL);
+	if (ft_strlen(s) <= (size_t)start)
+		return (ft_strdup(""));
+	dest = ft_strnew(len);
+	if (!dest)
+		return (NULL);
+	ft_memcpy((void *)dest, (void *)&(s[start]), len);
+	return (dest);
 }
 
 void	*ft_memcpy(void *dest, const void *src, size_t n)
