@@ -10,7 +10,7 @@ CFLAGS = -Wall -Wextra -Werror
 RELDIR = .
 RELEXE = $(RELDIR)/$(NAME)
 RELOBJS = $(addprefix $(SRC_DIR)/, $(OBJS))
-RELCFLAGS = -D BUFFER_SIZE=32
+RELCFLAGS = -D BUFFER_SIZE=3
 								#Debug settings
 ifdef DEBUG
 CFLAGS	+=	-g

@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   main.c                                          |o_o || |                */
 /*                                                    +:+ +:+         +:+     */
 /*   By: saladin <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/27 16:37:09 by saladin           #+#    #+#             */
-/*   Updated: 2021/04/27 16:38:42 by saladin          ###   ########.fr       */
+/*   Updated: 2021/06/17 16:16:34 by safoh        \___)=(___/                 */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ int	ft_tester(char *file)
 	read_code = 1;
 	while (read_code > 0)
 	{
-		read_code = get_next_line(0, &line);
+		read_code = get_next_line(fd, &line);
 		printf("return gnl: [%d]\t string:%s\n", read_code, line);
 		free(line);
 	}
@@ -81,6 +81,10 @@ int	main(void)
 	case 7:
 		printf("Does a non existent file work correctly?\n\n");
 		ft_tester("file_does_not_exist.txt");
+		break;
+	case 8:
+		printf("Wrong Input Makefile GNL_lover");
+		ft_tester("../GNL_lover/Makefile");
 		break;
 	default:
 		printf("Invalid input\n\n");
